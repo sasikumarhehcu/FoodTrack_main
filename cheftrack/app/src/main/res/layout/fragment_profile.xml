@@ -1,6 +1,27 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/profileRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:text="This is the Profile screen"
-    android:gravity="center"
-    android:textSize="24sp" />
+    android:padding="24dp"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <!-- ✅ Greeting Text -->
+    <TextView
+        android:id="@+id/greetingTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome!"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp" />
+
+    <!-- ✅ Logout Button -->
+    <Button
+        android:id="@+id/logoutButton"
+        android:text="Logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"/>
+</LinearLayout>

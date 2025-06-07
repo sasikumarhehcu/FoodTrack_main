@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ChefTrack</string>
+    <string name="greeting_message">👋 Welcome, %1$s</string>
+
+</resources>

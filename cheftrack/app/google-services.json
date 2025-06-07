@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1084155563127",
+    "project_id": "cheftrack-c188c",
+    "storage_bucket": "cheftrack-c188c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1084155563127:android:85fd0702e96150f5214a72",
+        "android_client_info": {
+          "package_name": "com.example.cheftrack"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVraOq2xaWX1892JUfkvj7ElYSB8CIBxw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

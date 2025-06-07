@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dietary Preferences"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp"/>
+
+        <CheckBox
+            android:id="@+id/checkBoxVegan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vegan"
+            android:minHeight="48dp" />
+
+        <CheckBox
+            android:id="@+id/checkBoxVegetarian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vegetarian"
+            android:minHeight="48dp" />
+
+        <CheckBox
+            android:id="@+id/checkBoxGlutenFree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gluten-Free"
+            android:minHeight="48dp" />
+
+        <Button
+            android:id="@+id/savePreferencesButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Preferences"
+            android:layout_marginTop="20dp"/>
+    </LinearLayout>
+</ScrollView>

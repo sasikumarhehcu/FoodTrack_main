@@ -1,6 +1,78 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:text="This is the Add Recipe screen"
-    android:gravity="center"
-    android:textSize="24sp" />
+    android:padding="16dp"
+    android:background="#FAFAFA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Image Preview -->
+        <ImageView
+            android:id="@+id/selectedImageView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="12dp"
+            android:background="#DDDDDD" />
+
+        <!-- Select Image Button -->
+        <Button
+            android:id="@+id/buttonSelectImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Image from Gallery"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Recipe Title -->
+        <EditText
+            android:id="@+id/editTextTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Recipe Title"
+            android:minHeight="48dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Ingredients -->
+        <EditText
+            android:id="@+id/editTextIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ingredients"
+            android:minLines="3"
+            android:minHeight="48dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Instructions -->
+        <EditText
+            android:id="@+id/editTextInstructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Instructions"
+            android:minLines="3"
+            android:minHeight="48dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Tags -->
+        <EditText
+            android:id="@+id/editTextTags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tags (e.g. vegan, spicy)"
+            android:minHeight="48dp"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Save Button -->
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Recipe"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#FF5722"
+            android:padding="12dp"/>
+    </LinearLayout>
+</ScrollView>

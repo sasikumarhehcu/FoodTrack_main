@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.cheftrack.HomeFragment"
+        android:label="Home" />
+
+
+    <fragment
+        android:id="@+id/nav_add"
+        android:name="com.example.cheftrack.AddRecipeFragment"
+        android:label="Add/Edit Recipe" />
+    <fragment
+        android:id="@+id/nav_recipe_detail"
+        android:name="com.example.cheftrack.RecipeDetailFragment"
+        android:label="Recipe Detail" />
+    <fragment
+        android:id="@+id/nav_filter"
+        android:name="com.example.cheftrack.DietaryFilterFragment"
+        android:label="Filter Preferences" />
+
+
+</navigation>
