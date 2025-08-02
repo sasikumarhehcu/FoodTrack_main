@@ -19,14 +19,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MealmateTheme {
+                var showWelcome by remember { mutableStateOf(true) }
                 var isLoggedIn by remember { mutableStateOf(false) }
 
-                if (!isLoggedIn) {
-                    WelcomeScreen(onContinueClick = { isLoggedIn = true })
-
-                } else {
-                    MainAppContent()
+                when {
+                    showWelcome -> WelcomeScreen { showWelcome = false }
+                    !isLoggedIn -> LoginScreen { isLoggedIn = true }
+                    else -> MainAppContent()
                 }
+
             }
         }
     }
