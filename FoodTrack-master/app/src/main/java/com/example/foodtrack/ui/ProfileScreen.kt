@@ -1,4 +1,4 @@
-package com.example.mealmate.ui
+package com.example.foodtrack.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

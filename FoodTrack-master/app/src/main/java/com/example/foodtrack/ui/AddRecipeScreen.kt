@@ -1,5 +1,3 @@
-package ui
-
 package com.example.foodtrack.ui
 
 import androidx.compose.foundation.layout.*
@@ -10,7 +8,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun AddRecipeScreen(modifier: Modifier = Modifier) {
+fun AddRecipeScreen(modifier: Modifier = Modifier, onAddRecipe: (String) -> Boolean) {
     var name by remember { mutableStateOf("") }
     var steps by remember { mutableStateOf("") }
 
@@ -31,7 +29,21 @@ fun AddRecipeScreen(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(Modifier.height(16.dp))
-        Button(onClick = { /* Save logic */ }) {
+        Button(
+            onClick = {
+                if (name.isNotBlank() && steps.isNotBlank()) {
+                    val recipe = "$name: $steps"
+                    if (onAddRecipe(recipe)) {
+                        name = ""
+                        steps = ""
+                        // Optionally show a success message
+                    } else {
+                        // Handle failure (e.g., show error)
+                    }
+                }
+            },
+            enabled = name.isNotBlank() && steps.isNotBlank() // Disable if fields are empty
+        ) {
             Text("Save Recipe")
         }
     }
@@ -40,5 +52,14 @@ fun AddRecipeScreen(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewAddRecipeScreen() {
-    AddRecipeScreen()
+    // Mock meals list for preview
+    val previewMeals = remember { mutableStateListOf<String>() }
+    AddRecipeScreen { recipe: String ->
+        if (recipe.isNotBlank()) {
+            previewMeals.add(recipe)
+            true // Return true if added successfully
+        } else {
+            false // Return false if invalid
+        }
+    }
 }

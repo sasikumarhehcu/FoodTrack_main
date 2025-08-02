@@ -1,6 +1,4 @@
-package ui
-
-package com.example.foodtrack.ui.theme
+package com.example.foodtrack.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,7 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.foodtrack.R
+import com.example.foodtrack.R // Ensure this matches your app's R file
 
 @Composable
 fun WelcomeScreen(onGetStartedClick: () -> Unit) {
@@ -24,7 +22,7 @@ fun WelcomeScreen(onGetStartedClick: () -> Unit) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        // Background image
+        // Background image (ensure foodtrack_welcome is in res/drawable)
         Image(
             painter = painterResource(id = R.drawable.foodtrack_welcome),
             contentDescription = "Welcome Background",
@@ -39,7 +37,7 @@ fun WelcomeScreen(onGetStartedClick: () -> Unit) {
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Center mockup or logo (optional)
+            // Logo (ensure foodtrack_logo is in res/drawable)
             Image(
                 painter = painterResource(id = R.drawable.foodtrack_logo),
                 contentDescription = "App Logo",
