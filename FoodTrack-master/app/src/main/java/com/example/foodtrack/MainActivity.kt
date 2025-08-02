@@ -10,25 +10,14 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp // Ensure dp is imported for padding
+import androidx.compose.ui.unit.dp
 import com.example.foodtrack.ui.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            // Default theme implementation if foodtrackTheme is not defined
-            // Define foodtrackTheme in com.example.foodtrack.ui.theme.foodtrackTheme.kt for custom styling
-            val themeContent: @Composable () -> Unit = {
-                MainContent()
-            }
-            try {
-                //foodtrackTheme(themeContent)
-            } catch (e: Exception) {
-                MaterialTheme {
-                    themeContent()
-                }
-            }
+            MainContent()
         }
     }
 
@@ -38,36 +27,41 @@ class MainActivity : ComponentActivity() {
         var isLoggedIn by remember { mutableStateOf(false) }
         var userName by remember { mutableStateOf("") }
         var userEmail by remember { mutableStateOf("") }
+        var selectedRecipe by remember { mutableStateOf<Recipe?>(null) }
 
         when {
-            showWelcome -> WelcomeScreen(
-                onGetStartedClick = { showWelcome = false }
+            selectedRecipe != null -> RecipeDetailScreen(
+                recipe = selectedRecipe!!,
+                onClose = { selectedRecipe = null }
             )
-            !isLoggedIn -> LoginScreen(
-                onLoginSuccess = { name: String, email: String ->
-                    userName = name
-                    userEmail = email
-                    isLoggedIn = true
-                }
-            )
+
+            showWelcome -> WelcomeScreen(onGetStartedClick = { showWelcome = false })
+
+            !isLoggedIn -> LoginScreen(onLoginSuccess = { name, email ->
+                userName = name
+                userEmail = email
+                isLoggedIn = true
+            })
+
             else -> MainAppContent(
                 userName = userName,
                 userEmail = userEmail,
-                onLogout = { isLoggedIn = false }
+                onLogout = { isLoggedIn = false },
+                onRecipeClick = { recipe -> selectedRecipe = recipe }
             )
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainAppContent(
     userName: String,
     userEmail: String,
-    onLogout: () -> Unit
+    onLogout: () -> Unit,
+    onRecipeClick: (Recipe) -> Unit
 ) {
-    var selectedTab by remember { mutableStateOf(0) }
-    val meals = remember { mutableStateListOf<String>() }
+    var selectedTab by remember { mutableIntStateOf(0) }
+    val meals = remember { mutableStateListOf<Recipe>() }
     val tabs = listOf("Home", "Add Recipe", "Favorites", "Profile")
 
     Scaffold(
@@ -84,7 +78,7 @@ fun MainAppContent(
                                 "Add Recipe" -> Icon(Icons.Default.Add, contentDescription = "Add Recipe")
                                 "Favorites" -> Icon(Icons.Default.Favorite, contentDescription = "Favorites")
                                 "Profile" -> Icon(Icons.Default.Person, contentDescription = "Profile")
-                                else -> Icon(Icons.Default.Info, contentDescription = "Info")
+                                else -> Icon(Icons.Default.Info, contentDescription = "Other")
                             }
                         }
                     )
@@ -94,25 +88,23 @@ fun MainAppContent(
     ) { padding ->
         Box(modifier = Modifier.padding(padding)) {
             when (selectedTab) {
-                0 -> HomeScreen(
-                    meals = meals
-                )
-                1 -> AddRecipeScreen(
-                    onAddRecipe = { recipe: String ->
-                        if (recipe.isNotBlank()) {
-                            meals.add(recipe)
-                            true
-                        } else {
-                            false
-                        }
+                0 -> HomeScreen(meals = meals, onRecipeClick = onRecipeClick)
+                1 -> AddRecipeScreen(onAddRecipe = { recipe ->
+                    if (recipe.name.isNotBlank() && recipe.imageUri.isNotBlank() &&
+                        recipe.ingredients.isNotEmpty() && recipe.instructions.isNotBlank()
+                    ) {
+                        meals.add(recipe)
+                        true
+                    } else {
+                        false
                     }
-                )
-                2 -> FavoritesScreen() // Placeholder; define in com.example.foodtrack.ui.FavoritesScreen.kt
+                })
+                2 -> FavoritesScreen()
                 3 -> ProfileScreen(
                     userName = userName,
                     userEmail = userEmail,
                     onLogout = onLogout
-                ) // Placeholder; define in com.example.foodtrack.ui.ProfileScreen.kt
+                )
             }
         }
     }
