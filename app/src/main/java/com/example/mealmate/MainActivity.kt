@@ -9,7 +9,6 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.example.mealmate.ui.*
 import com.example.mealmate.ui.theme.MealmateTheme
 
@@ -41,7 +40,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainAppContent(
     userName: String,
@@ -79,11 +77,7 @@ fun MainAppContent(
                 0 -> HomeScreen(meals)
                 1 -> AddMealScreen(onAddMeal = { meal -> meals.add(meal) })
                 2 -> FavoritesScreen()
-                3 -> ProfileScreen(
-                    userName = userName,
-                    userEmail = userEmail,
-                    onLogout = onLogout
-                )
+                3 -> ProfileScreen(userName = userName, userEmail = userEmail, onLogout = onLogout)
             }
         }
     }
