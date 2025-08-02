@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.mealmate.ui.LoginScreen
+import com.example.mealmate.ui.WelcomeScreen
 import com.example.mealmate.ui.theme.MealmateTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +22,8 @@ class MainActivity : ComponentActivity() {
                 var isLoggedIn by remember { mutableStateOf(false) }
 
                 if (!isLoggedIn) {
-                    LoginScreen(onLoginSuccess = { isLoggedIn = true })
+                    WelcomeScreen(onContinueClick = { isLoggedIn = true })
+
                 } else {
                     MainAppContent()
                 }
