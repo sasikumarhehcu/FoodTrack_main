@@ -3,8 +3,7 @@ package com.example.mealmate
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -21,11 +20,21 @@ class MainActivity : ComponentActivity() {
             MealmateTheme {
                 var showWelcome by remember { mutableStateOf(true) }
                 var isLoggedIn by remember { mutableStateOf(false) }
+                var userName by remember { mutableStateOf("") }
+                var userEmail by remember { mutableStateOf("") }
 
                 when {
                     showWelcome -> WelcomeScreen { showWelcome = false }
-                    !isLoggedIn -> LoginScreen { isLoggedIn = true }
-                    else -> MainAppContent(onLogout = { isLoggedIn = false })
+                    !isLoggedIn -> LoginScreen { name, email ->
+                        userName = name
+                        userEmail = email
+                        isLoggedIn = true
+                    }
+                    else -> MainAppContent(
+                        userName = userName,
+                        userEmail = userEmail,
+                        onLogout = { isLoggedIn = false }
+                    )
                 }
             }
         }
@@ -34,10 +43,13 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainAppContent(onLogout: () -> Unit) {
+fun MainAppContent(
+    userName: String,
+    userEmail: String,
+    onLogout: () -> Unit
+) {
     var selectedTab by remember { mutableStateOf(0) }
     val meals = remember { mutableStateListOf<String>() }
-
     val tabs = listOf("Home", "Add", "Favorites", "Profile")
 
     Scaffold(
@@ -67,7 +79,11 @@ fun MainAppContent(onLogout: () -> Unit) {
                 0 -> HomeScreen(meals)
                 1 -> AddMealScreen(onAddMeal = { meal -> meals.add(meal) })
                 2 -> FavoritesScreen()
-                3 -> ProfileScreen(onLogout = onLogout)
+                3 -> ProfileScreen(
+                    userName = userName,
+                    userEmail = userEmail,
+                    onLogout = onLogout
+                )
             }
         }
     }
