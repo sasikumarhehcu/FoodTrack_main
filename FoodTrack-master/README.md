@@ -1,29 +1,41 @@
-Food Track app
-=====================
+# 🍽️ FoodTrack – Kotlin Recipe App
 
-Code for Android Basics with Compose Codelab.
+**FoodTrack** is a recipe management app developed as part of CP5307 Assignment 2. It is built using **Kotlin** and **Jetpack Compose** and allows users to create, store, and view recipes in a clean and simple interface.
 
-Introduction
-------------
+---
 
-Food Track is a app about tracking the recipes .
+## ✅ Features
 
-Press the button, make a dessert, earn the big bucks.
+- Add new recipes (name, ingredients, image URI, instructions)
+- Store and retrieve recipes using Room (local database)
+- Tab-based navigation (Home, Add, Favorites, Discover, Profile)
+- View recipe details on a separate screen
+- Login and Signup screens (mocked logic)
+- Compose UI with Material Design 3
+- Compose UI test for AddRecipeScreen
+- Uses ViewModel for form state management
 
-You use this app in the course to explore the Android lifecycle and log messages to
-the Android console (Logcat).
+---
 
-Pre-requisites
---------------
+## 🔧 Technologies Used
 
-You need to know:
-- How to open, build, and run apps with Android Studio.
-- What an activity is, and how to create one in your app
-- What the activity's onCreate() method does, and the kind of operations
-  that are performed in that method.
+- Kotlin
+- Jetpack Compose
+- Room Database
+- Material3
+- ViewModel
+- Coroutine
+- Compose UI Test (ComposeTestRule)
 
+---
 
-Getting Started
----------------
+## 🧪 Testing
 
-1. Download and run the app.
+- UI test checks if **Save Recipe** button is disabled when form is empty.
+- Ensures form validation works as expected.
+
+---
+
+## 🗂️ How to Run
+
+1. Clone the repo or download the ZIP:
