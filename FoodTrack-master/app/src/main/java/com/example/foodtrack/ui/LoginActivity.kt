@@ -1,11 +1,13 @@
 package com.example.foodtrack.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun LoginScreen(onLoginSuccess: (String, String) -> Unit) {
@@ -15,16 +17,20 @@ fun LoginScreen(onLoginSuccess: (String, String) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.Center
+            .padding(24.dp)
+            .background(Color(0xFFE0F7FA)) // Light cyan background
     ) {
-        Text(text = "Login", style = MaterialTheme.typography.headlineMedium)
+        Text(
+            text = "Login",
+            style = MaterialTheme.typography.headlineMedium,
+            color = Color(0xFF4CAF50) // Green for freshness
+        )
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text("Email") },
+            label = { Text("Email", color = Color(0xFF4CAF50)) },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -33,7 +39,7 @@ fun LoginScreen(onLoginSuccess: (String, String) -> Unit) {
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Password") },
+            label = { Text("Password", color = Color(0xFF4CAF50)) },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
         )
@@ -46,9 +52,10 @@ fun LoginScreen(onLoginSuccess: (String, String) -> Unit) {
                 val name = email.substringBefore("@").replaceFirstChar { it.uppercase() }
                 onLoginSuccess(name, email)
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFC107)) // Yellow button
         ) {
-            Text("Login")
+            Text("Login", color = Color.Black)
         }
     }
 }
