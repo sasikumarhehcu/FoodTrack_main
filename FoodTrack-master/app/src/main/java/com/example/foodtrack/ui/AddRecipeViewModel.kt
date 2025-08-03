@@ -7,9 +7,11 @@ import com.example.foodtrack.data.Recipe
 import com.example.foodtrack.data.RecipeDao
 import kotlinx.coroutines.launch
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+
 
 class AddRecipeViewModel(private val context: Context) : ViewModel() {
     // State for form fields
@@ -22,6 +24,7 @@ class AddRecipeViewModel(private val context: Context) : ViewModel() {
     private val recipeDao: RecipeDao = db.recipeDao()
 
     // Function to handle recipe submission
+
     fun onSaveRecipe(onAddRecipe: (Recipe) -> Boolean) {
         val recipe = Recipe(
             name = name,
@@ -29,16 +32,23 @@ class AddRecipeViewModel(private val context: Context) : ViewModel() {
             ingredients = ingredients.split(",").map { it.trim() },
             instructions = instructions
         )
+
+        Log.d("AddRecipeViewModel", "Attempting to save: $recipe")
+
         viewModelScope.launch {
-            recipeDao.insert(recipe) // Persist to database
+            recipeDao.insert(recipe)
+            Log.d("AddRecipeViewModel", "Recipe inserted into DB")
+
             if (onAddRecipe(recipe)) {
                 name = ""
                 imageUri = ""
                 ingredients = ""
                 instructions = ""
+                Log.d("AddRecipeViewModel", "Recipe saved and form cleared")
             }
         }
     }
+
 
     // Check if the form is valid
     fun isFormValid(): Boolean {

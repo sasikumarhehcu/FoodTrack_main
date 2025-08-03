@@ -31,6 +31,7 @@ class MainActivity : ComponentActivity() {
         var userName by remember { mutableStateOf("") }
         var userEmail by remember { mutableStateOf("") }
         var selectedRecipe by remember { mutableStateOf<Recipe?>(null) }
+        var showSignup by remember { mutableStateOf(false) } // NEW
 
         when {
             selectedRecipe != null -> RecipeDetailScreen(
@@ -40,11 +41,18 @@ class MainActivity : ComponentActivity() {
 
             showWelcome -> WelcomeScreen(onGetStartedClick = { showWelcome = false })
 
-            !isLoggedIn -> LoginScreen(onLoginSuccess = { name, email ->
-                userName = name
-                userEmail = email
-                isLoggedIn = true
-            })
+            showSignup -> SignupScreen(
+                onSignupComplete = { showSignup = false }
+            )
+
+            !isLoggedIn -> LoginScreen(
+                onLoginSuccess = { name, email ->
+                    userName = name
+                    userEmail = email
+                    isLoggedIn = true
+                },
+                onSignupClick = { showSignup = true } // NEW
+            )
 
             else -> MainAppContent(
                 userName = userName,
@@ -90,7 +98,7 @@ class MainActivity : ComponentActivity() {
                                     "Home" -> Icon(Icons.Default.Home, contentDescription = "Home")
                                     "Add Recipe" -> Icon(Icons.Default.Add, contentDescription = "Add Recipe")
                                     "Favorites" -> Icon(Icons.Default.Favorite, contentDescription = "Favorites")
-                                    "Discover" -> Icon(Icons.Default.Search, contentDescription = "Discover") // Fixed to Public
+                                    "Discover" -> Icon(Icons.Default.Search, contentDescription = "Discover")
                                     "Profile" -> Icon(Icons.Default.Person, contentDescription = "Profile")
                                     else -> Icon(Icons.Default.Info, contentDescription = "Other")
                                 }
@@ -113,7 +121,7 @@ class MainActivity : ComponentActivity() {
                         } else false
                     })
                     2 -> FavoritesScreen()
-                    3 -> DiscoverScreen(onRecipeClick = onRecipeClick) // new
+                    3 -> DiscoverScreen(onRecipeClick = onRecipeClick)
                     4 -> ProfileScreen(userName = userName, userEmail = userEmail, onLogout = onLogout)
                 }
             }

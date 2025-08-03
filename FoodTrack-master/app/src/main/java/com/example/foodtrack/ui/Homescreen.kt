@@ -1,6 +1,5 @@
 package com.example.foodtrack.ui
 
-import android.R
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,8 +17,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.foodtrack.data.Recipe
-
-
 
 
 
@@ -57,7 +54,7 @@ fun HomeScreen(
                 ) {
                     Row(modifier = Modifier.padding(16.dp)) {
                         Image(
-                            painter = painterResource(id = R.drawable.ic_menu_gallery),
+                            painter = painterResource(id = android.R.drawable.ic_menu_gallery),
                             contentDescription = "Recipe Image",
                             modifier = Modifier
                                 .size(64.dp)
