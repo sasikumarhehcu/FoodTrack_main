@@ -1,11 +1,13 @@
 package com.example.foodtrack.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.Color
 import com.example.foodtrack.data.Recipe
 
 @Composable
@@ -18,7 +20,9 @@ fun AddRecipeScreen(
     var ingredients by remember { mutableStateOf("") } // comma-separated
     var instructions by remember { mutableStateOf("") }
 
-    Column(modifier = modifier.padding(16.dp)) {
+    Column(modifier = modifier
+        .padding(16.dp)
+    ) {
         Text("Add New Recipe", style = MaterialTheme.typography.titleLarge)
         Spacer(Modifier.height(8.dp))
         OutlinedTextField(
@@ -53,10 +57,10 @@ fun AddRecipeScreen(
         Button(
             onClick = {
                 val recipe = Recipe(
-                        name = name,
-                imageUri = imageUri,
-                ingredients = ingredients.split(",").map { it.trim() }, // convert from String to List<String>
-                instructions = instructions
+                    name = name,
+                    imageUri = imageUri,
+                    ingredients = ingredients.split(",").map { it.trim() }, // convert from String to List<String>
+                    instructions = instructions
                 )
 
                 if (onAddRecipe(recipe)) {
