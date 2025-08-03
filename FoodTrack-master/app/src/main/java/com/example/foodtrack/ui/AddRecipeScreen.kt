@@ -4,21 +4,18 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
-
-data class Recipe(
-    val name: String,
-    val imageUri: String, // Mock URI for now
-    val ingredients: List<String>,
-    val instructions: String
-)
+import androidx.compose.ui.unit.dp
+import com.example.foodtrack.data.Recipe
 
 @Composable
-fun AddRecipeScreen(modifier: Modifier = Modifier, onAddRecipe: (Recipe) -> Boolean) {
+fun AddRecipeScreen(
+    modifier: Modifier = Modifier,
+    onAddRecipe: (Recipe) -> Boolean
+) {
     var name by remember { mutableStateOf("") }
-    var imageUri by remember { mutableStateOf("") } // Mock image URI
-    var ingredients by remember { mutableStateOf("") } // Comma-separated
+    var imageUri by remember { mutableStateOf("") }
+    var ingredients by remember { mutableStateOf("") } // comma-separated
     var instructions by remember { mutableStateOf("") }
 
     Column(modifier = modifier.padding(16.dp)) {
@@ -34,7 +31,7 @@ fun AddRecipeScreen(modifier: Modifier = Modifier, onAddRecipe: (Recipe) -> Bool
         OutlinedTextField(
             value = imageUri,
             onValueChange = { imageUri = it },
-            label = { Text("Image URI (e.g., path or URL)") },
+            label = { Text("Image URI") },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(Modifier.height(8.dp))
@@ -55,18 +52,22 @@ fun AddRecipeScreen(modifier: Modifier = Modifier, onAddRecipe: (Recipe) -> Bool
         Spacer(Modifier.height(16.dp))
         Button(
             onClick = {
-                if (name.isNotBlank() && imageUri.isNotBlank() && ingredients.isNotBlank() && instructions.isNotBlank()) {
-                    val recipeIngredients = ingredients.split(",").map { it.trim() }
-                    val recipe = Recipe(name, imageUri, recipeIngredients, instructions)
-                    if (onAddRecipe(recipe)) {
-                        name = ""
-                        imageUri = ""
-                        ingredients = ""
-                        instructions = ""
-                    }
+                val recipe = Recipe(
+                        name = name,
+                imageUri = imageUri,
+                ingredients = ingredients.split(",").map { it.trim() }, // convert from String to List<String>
+                instructions = instructions
+                )
+
+                if (onAddRecipe(recipe)) {
+                    name = ""
+                    imageUri = ""
+                    ingredients = ""
+                    instructions = ""
                 }
             },
-            enabled = name.isNotBlank() && imageUri.isNotBlank() && ingredients.isNotBlank() && instructions.isNotBlank()
+            enabled = name.isNotBlank() && imageUri.isNotBlank() &&
+                    ingredients.isNotBlank() && instructions.isNotBlank()
         ) {
             Text("Save Recipe")
         }
@@ -76,13 +77,5 @@ fun AddRecipeScreen(modifier: Modifier = Modifier, onAddRecipe: (Recipe) -> Bool
 @Preview(showBackground = true)
 @Composable
 fun PreviewAddRecipeScreen() {
-    val previewRecipes = remember { mutableStateListOf<Recipe>() }
-    AddRecipeScreen { recipe ->
-        if (recipe.name.isNotBlank() && recipe.imageUri.isNotBlank() && recipe.ingredients.isNotEmpty() && recipe.instructions.isNotBlank()) {
-            previewRecipes.add(recipe)
-            true
-        } else {
-            false
-        }
-    }
+    AddRecipeScreen { true }
 }

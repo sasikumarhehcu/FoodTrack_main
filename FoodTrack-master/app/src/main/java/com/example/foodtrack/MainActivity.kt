@@ -10,8 +10,12 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.example.foodtrack.data.AppDatabase
+import com.example.foodtrack.data.Recipe
 import com.example.foodtrack.ui.*
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +68,17 @@ fun MainAppContent(
     val meals = remember { mutableStateListOf<Recipe>() }
     val tabs = listOf("Home", "Add Recipe", "Favorites", "Profile")
 
+    val context = LocalContext.current
+    val db = remember { AppDatabase.getDatabase(context) }
+    val coroutineScope = rememberCoroutineScope()
+
+    // Load existing recipes from DB once
+    LaunchedEffect(Unit) {
+        val saved = db.recipeDao().getAll()
+        meals.clear()
+        meals.addAll(saved)
+    }
+
     Scaffold(
         bottomBar = {
             NavigationBar {
@@ -89,17 +104,23 @@ fun MainAppContent(
         Box(modifier = Modifier.padding(padding)) {
             when (selectedTab) {
                 0 -> HomeScreen(meals = meals, onRecipeClick = onRecipeClick)
+
                 1 -> AddRecipeScreen(onAddRecipe = { recipe ->
-                    if (recipe.name.isNotBlank() && recipe.imageUri.isNotBlank() &&
-                        recipe.ingredients.isNotEmpty() && recipe.instructions.isNotBlank()
+                    if (recipe.name.isNotBlank() && recipe.imageUri.isNotBlank()
+                        && recipe.ingredients.isNotEmpty() && recipe.instructions.isNotBlank()
                     ) {
+                        coroutineScope.launch {
+                            db.recipeDao().insert(recipe)
+                        }
                         meals.add(recipe)
                         true
                     } else {
                         false
                     }
                 })
+
                 2 -> FavoritesScreen()
+
                 3 -> ProfileScreen(
                     userName = userName,
                     userEmail = userEmail,
