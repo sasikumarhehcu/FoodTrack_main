@@ -14,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.Alignment
 import androidx.compose.foundation.clickable
+import com.example.foodtrack.R
 import com.example.foodtrack.ui.theme.FoodTrackTheme
 
 @Composable
@@ -29,15 +30,17 @@ fun FavoritesScreen(modifier: Modifier = Modifier) {
             color = Color(0xFF4CAF50) // Green for freshness
         )
         Spacer(Modifier.height(12.dp))
-        // List of 5 dishes with placeholder images
+
+        // List of 5 dishes with corresponding image resource IDs
         val dishes = listOf(
-            "Paneer Butter Masala",
-            "Chicken Curry",
-            "Dal Makhani",
-            "Butter Chicken",
-            "Vegetable Biryani"
+            Pair("Paneer Butter Masala", R.drawable.paneer_butter_masala),
+            Pair("Chicken Curry", R.drawable.chicken_curry),
+            Pair("Dal Makhani", R.drawable.dalmakhani),
+            Pair("Butter Chicken", R.drawable.butter_chicken),
+            Pair("Vegetable Biryani", R.drawable.veg_biryani)
         )
-        dishes.forEach { dishName ->
+
+        dishes.forEach { (dishName, dishImage) -> // Destructure the Pair
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -50,14 +53,14 @@ fun FavoritesScreen(modifier: Modifier = Modifier) {
                         .padding(8.dp)
                         .clickable { /* Add navigation if needed */ }
                 ) {
-                    // Increased size and changed to ContentScale.Fit for full image
+                    // Load actual image from drawable
                     Image(
-                        painter = painterResource(id = android.R.drawable.ic_menu_gallery),
+                        painter = painterResource(id = dishImage),
                         contentDescription = "Recipe Image for $dishName",
                         modifier = Modifier
-                            .size(80.dp) // Increased from 64.dp to 80.dp
+                            .size(80.dp) // Adjust size as needed
                             .padding(end = 8.dp),
-                        contentScale = ContentScale.Fit // Changed to Fit to show full image
+                        contentScale = ContentScale.Fit // Show the full image without cropping
                     )
                     Text(
                         "- $dishName",

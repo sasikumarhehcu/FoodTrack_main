@@ -10,6 +10,5 @@ data class Recipe(
     val name: String,
     val imageUri: String,
     val ingredients: List<String>,
-    val instructions: String
+    val instructions: String,
 )
-

@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -29,52 +28,55 @@ fun WelcomeScreen(onGetStartedClick: () -> Unit) {
                 )
             )
     ) {
-        // Background image (ensure foodtrack_welcome is in res/drawable)
-        Image(
-            painter = painterResource(id = R.drawable.foodtrack_welcome),
-            contentDescription = "Welcome Background",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(bottom = 32.dp),
-            verticalArrangement = Arrangement.Bottom,
+            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Logo (ensure foodtrack_logo is in res/drawable)
-            Image(
-                painter = painterResource(id = R.drawable.foodtrack_logo),
-                contentDescription = "App Logo",
+            // Container with semi-transparent background for logo, text, and button
+            Box(
                 modifier = Modifier
-                    .width(150.dp)
-                    .height(150.dp)
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = "Welcome to FoodTrack!",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFFF44336), // Red for a spicy welcome
-                textAlign = TextAlign.Center
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Button(
-                onClick = onGetStartedClick,
-                shape = RoundedCornerShape(50),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEF5350)), // Coral red button
-                modifier = Modifier
-                    .padding(horizontal = 32.dp)
-                    .fillMaxWidth()
-                    .height(50.dp)
+                    .background(Color.White.copy(alpha = 0.7f)) // Semi-transparent white background
+                    .padding(16.dp)
             ) {
-                Text("Get started", color = Color.White)
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    // Logo (ensure foodtrack_logo is in res/drawable)
+                    Image(
+                        painter = painterResource(id = R.drawable.foodtrack_logo),
+                        contentDescription = "App Logo",
+                        modifier = Modifier
+                            .width(150.dp)
+                            .height(150.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(
+                        text = "Welcome to FoodTrack!",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFFF44336), // Red for a spicy welcome
+                        textAlign = TextAlign.Center
+                    )
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Button(
+                        onClick = onGetStartedClick,
+                        shape = RoundedCornerShape(50),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEF5350)), // Coral red button
+                        modifier = Modifier
+                            .padding(horizontal = 32.dp)
+                            .fillMaxWidth()
+                            .height(50.dp)
+                    ) {
+                        Text("Get started", color = Color.White)
+                    }
+                }
             }
         }
     }

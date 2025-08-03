@@ -11,7 +11,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import com.example.foodtrack.data.AppDatabase
 import com.example.foodtrack.data.Recipe
 import com.example.foodtrack.ui.*
@@ -55,77 +54,68 @@ class MainActivity : ComponentActivity() {
             )
         }
     }
-}
 
-@Composable
-fun MainAppContent(
-    userName: String,
-    userEmail: String,
-    onLogout: () -> Unit,
-    onRecipeClick: (Recipe) -> Unit
-) {
-    var selectedTab by remember { mutableIntStateOf(0) }
-    val meals = remember { mutableStateListOf<Recipe>() }
-    val tabs = listOf("Home", "Add Recipe", "Favorites", "Profile")
+    @Composable
+    fun MainAppContent(
+        userName: String,
+        userEmail: String,
+        onLogout: () -> Unit,
+        onRecipeClick: (Recipe) -> Unit
+    ) {
+        var selectedTab by remember { mutableIntStateOf(0) }
+        val meals = remember { mutableStateListOf<Recipe>() }
+        val tabs = listOf("Home", "Add Recipe", "Favorites", "Discover", "Profile")
 
-    val context = LocalContext.current
-    val db = remember { AppDatabase.getDatabase(context) }
-    val coroutineScope = rememberCoroutineScope()
+        val context = LocalContext.current
+        val db = remember { AppDatabase.getDatabase(context) }
+        val coroutineScope = rememberCoroutineScope()
 
-    // Load existing recipes from DB once
-    LaunchedEffect(Unit) {
-        val saved = db.recipeDao().getAll()
-        meals.clear()
-        meals.addAll(saved)
-    }
+        // Load existing recipes from DB once
+        LaunchedEffect(Unit) {
+            val saved = db.recipeDao().getAll()
+            meals.clear()
+            meals.addAll(saved)
+        }
 
-    Scaffold(
-        bottomBar = {
-            NavigationBar {
-                tabs.forEachIndexed { index, label ->
-                    NavigationBarItem(
-                        selected = selectedTab == index,
-                        onClick = { selectedTab = index },
-                        label = { Text(label) },
-                        icon = {
-                            when (label) {
-                                "Home" -> Icon(Icons.Default.Home, contentDescription = "Home")
-                                "Add Recipe" -> Icon(Icons.Default.Add, contentDescription = "Add Recipe")
-                                "Favorites" -> Icon(Icons.Default.Favorite, contentDescription = "Favorites")
-                                "Profile" -> Icon(Icons.Default.Person, contentDescription = "Profile")
-                                else -> Icon(Icons.Default.Info, contentDescription = "Other")
+        Scaffold(
+            bottomBar = {
+                NavigationBar {
+                    tabs.forEachIndexed { index, label ->
+                        NavigationBarItem(
+                            selected = selectedTab == index,
+                            onClick = { selectedTab = index },
+                            label = { Text(label) },
+                            icon = {
+                                when (label) {
+                                    "Home" -> Icon(Icons.Default.Home, contentDescription = "Home")
+                                    "Add Recipe" -> Icon(Icons.Default.Add, contentDescription = "Add Recipe")
+                                    "Favorites" -> Icon(Icons.Default.Favorite, contentDescription = "Favorites")
+                                    "Discover" -> Icon(Icons.Default.Search, contentDescription = "Discover") // Fixed to Public
+                                    "Profile" -> Icon(Icons.Default.Person, contentDescription = "Profile")
+                                    else -> Icon(Icons.Default.Info, contentDescription = "Other")
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
             }
-        }
-    ) { padding ->
-        Box(modifier = Modifier.padding(padding)) {
-            when (selectedTab) {
-                0 -> HomeScreen(meals = meals, onRecipeClick = onRecipeClick)
-
-                1 -> AddRecipeScreen(onAddRecipe = { recipe ->
-                    if (recipe.name.isNotBlank() && recipe.imageUri.isNotBlank()
-                        && recipe.ingredients.isNotEmpty() && recipe.instructions.isNotBlank()
-                    ) {
-                        coroutineScope.launch {
-                            db.recipeDao().insert(recipe)
-                        }
-                        meals.add(recipe)
-                        true
-                    } else {
-                        false
-                    }
-                })
-
-                2 -> FavoritesScreen()
-
-                3 -> ProfileScreen(
-                    userName = userName,
-                    userEmail = userEmail,
-                    onLogout = onLogout
-                )
+        ) { padding ->
+            Box(modifier = Modifier.padding(padding)) {
+                when (selectedTab) {
+                    0 -> HomeScreen(meals = meals, onRecipeClick = onRecipeClick)
+                    1 -> AddRecipeScreen(onAddRecipe = { recipe ->
+                        if (recipe.name.isNotBlank() && recipe.imageUri.isNotBlank() &&
+                            recipe.ingredients.isNotEmpty() && recipe.instructions.isNotBlank()
+                        ) {
+                            coroutineScope.launch { db.recipeDao().insert(recipe) }
+                            meals.add(recipe)
+                            true
+                        } else false
+                    })
+                    2 -> FavoritesScreen()
+                    3 -> DiscoverScreen(onRecipeClick = onRecipeClick) // new
+                    4 -> ProfileScreen(userName = userName, userEmail = userEmail, onLogout = onLogout)
+                }
             }
         }
     }
